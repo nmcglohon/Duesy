@@ -1,5 +1,6 @@
-from datetime import *
+import datetime as dt
 import Message as m
+import pickle
 
 class DueDateOrganizer:
 
@@ -8,6 +9,14 @@ class DueDateOrganizer:
 
     def addDueDate(self,dd):
         self.dat[dd._key] = dd
+
+    def pickle(self):
+        return pickle.dumps(self)
+
+    @classmethod
+    def unpickle(cls, pickled):
+        unpickled = pickle.loads(pickled)
+        return unpickled
 
     def __str__(self):
         myStr = "DueDateOrganizer Object <"
@@ -20,7 +29,7 @@ class DueDateOrganizer:
 class DueDate:
     
     def __init__(self, message= m.Message()):
-        self.dueDate = datetime(1900,1,1)
+        self.dueDate = dt.datetime(1900,1,1)
         self.issuer = "John Smith"
         self._key = message.fromEmail
         self._datMessage = message
@@ -37,6 +46,14 @@ def main():
     ddorg.addDueDate(dd)
 
     print("\nAdded Due Date to Org:\n" + str(ddorg))
+
+    pickledstr = ddorg.pickle()
+
+    print("\nPickle Test: %s" % pickledstr)
+
+    
+    ddorgcopy = DueDateOrganizer.unpickle(pickledstr)
+    print("\nCopy of pickled %s" % ddorgcopy)
 
 if __name__ == '__main__':
     main()
