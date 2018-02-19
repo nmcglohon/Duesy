@@ -2,7 +2,7 @@ from datetime import *
 
 class Message:
 
-    def __init__(self, toEmail, fromEmail, subject, body, date, _id):
+    def __init__(self, toEmail="toEmail@mail.com", fromEmail="fromEmail@mail.com", subject="Hello There!", body="I just wanted to say hi!\n-N", date=date(2018,2,18), _id="1234abcd"):
         self.toEmail = toEmail
         self.fromEmail = fromEmail
         self.subject = subject
@@ -17,14 +17,15 @@ class Message:
         
 
     def __str__(self):
-        return str(self.__dict__)
+        return str("<Message Object: " + str(vars(self)) + ">")
 
     
 
 
 def main():
     print("Testing Message Instantiation")
-    mess = Message('nmcglohon@gmail.com', 'otheremail@gmail.com','Hello There!','This is body text', date(2018,2,18), 523405)
+    emptyMess = Message()
+    mess = Message('nmcglohon@gmail.com', 'otheremail@gmail.com','Hello There!','This is body text', date(2018,2,18), "1234abcd")
     print(str(mess))
     print()
 
