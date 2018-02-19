@@ -1,3 +1,5 @@
+#This was largely sourced and modified from Google's Gmail API example code
+
 from __future__ import print_function
 import httplib2
 import os
@@ -6,6 +8,8 @@ from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
+
+import Message
 
 try:
     import argparse
@@ -48,6 +52,8 @@ def get_credentials():
         print('Storing credentials to ' + credential_path)
     return credentials
 
+
+
 def main():
     """Shows basic usage of the Gmail API.
 
@@ -58,15 +64,27 @@ def main():
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('gmail', 'v1', http=http)
 
-    results = service.users().labels().list(userId='me').execute()
-    labels = results.get('labels', [])
 
-    if not labels:
-        print('No labels found.')
-    else:
-      print('Labels:')
-      for label in labels:
-        print(label['name'])
+    query='due date'
+
+    results = service.users().messages().list(userId='me',q=query).execute()
+
+    messages = []
+    if 'messages' in results:
+        print(results)
+        
+        messages.extend(results['messages'])
+
+        while 'nextPageToken' in results:
+            page_token = results['nextPageToken']
+            results = service.users().messages().list(userId='me',q=query,
+                                                pageToken=page_token).execute()
+            messages.extend(results['messages'])
+
+        print('Found %d Messages'%len(messages))
+
+    for mess in messages:
+        print(service.users().messages().get(userId='me',id=mess['id'],format='minimal').execute())
 
 
 if __name__ == '__main__':
