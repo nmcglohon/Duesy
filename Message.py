@@ -1,8 +1,8 @@
-from datetime import *
+import datetime as dt
 
 class Message:
 
-    def __init__(self, toEmail="toEmail@mail.com", fromEmail="fromEmail@mail.com", subject="Hello There!", body="I just wanted to say hi!\n-N", date=date(2018,2,18), _id="1234abcd"):
+    def __init__(self, toEmail="toEmail@mail.com", fromEmail="fromEmail@mail.com", subject="Hello There!", body="I just wanted to say hi!\n-N", date=dt.date(2018,2,18), _id="1234abcd"):
         self.toEmail = toEmail
         self.fromEmail = fromEmail
         self.subject = subject
@@ -13,7 +13,7 @@ class Message:
     @staticmethod
     def convert_ms_epoch(msEpoch):
         sEpoch = msEpoch / 1000.0
-        return datetime.fromtimestamp(sEpoch)
+        return dt.datetime.fromtimestamp(sEpoch)
         
 
     def __str__(self):
@@ -25,7 +25,7 @@ class Message:
 def main():
     print("Testing Message Instantiation")
     emptyMess = Message()
-    mess = Message('nmcglohon@gmail.com', 'otheremail@gmail.com','Hello There!','This is body text', date(2018,2,18), "1234abcd")
+    mess = Message('nmcglohon@gmail.com', 'otheremail@gmail.com','Hello There!','This is body text', dt.date(2018,2,18), "1234abcd")
     print(str(mess))
     print()
 
